@@ -9,7 +9,7 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models
-var db = require("/models");
+var db = require("./models");
 
 var PORT = process.env.PORT || 3001;
 
@@ -26,7 +26,8 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Connect to MongoLab
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
