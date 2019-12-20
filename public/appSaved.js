@@ -37,7 +37,7 @@ $.getJSON("/saved", function(data) {
         $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
         
   
-        if (data.note.length >= 1) {
+        if (data.note) {
             $("#notes").append("<h2>Saved Note</h2>")
             for (let object of data.note) {
               $("#notes").append(
