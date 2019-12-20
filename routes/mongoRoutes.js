@@ -87,6 +87,7 @@ module.exports = function(app) {
         db.Article.findOne({ _id: req.params.id })
         .populate("note")
         .then(function(foundArt) {
+            console.warn('found art!', foundArt)
             res.json(foundArt);
         })
         .catch(function(err) {
@@ -100,11 +101,7 @@ module.exports = function(app) {
     app.post("/articles/:id", function(req, res) {
         db.Note.create(req.body)
         .then(function(dbNote) {
-            return db.Article.findOneAndUpdate(
-            { _id: req.params.id },
-            { note: dbNote._id },
-            { new: true }
-            );
+            return db.Article.findOneAndUpdate({}, { $push: { note: dbNote._id } }, { new: true });
         })
         .then(function(dbArticle) {
             res.json(dbArticle);
@@ -126,4 +123,21 @@ module.exports = function(app) {
         res.redirect("./");
         });
     })
+
+    app.get("/delete/:id", function(req, res) {
+        db.Note.remove(
+            {
+                _id: req.params.id
+            },
+            function(error, removed) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log(removed)
+                    res.send(removed)
+                }
+            }
+        ) 
+    })
 }
+ 

@@ -37,10 +37,19 @@ $.getJSON("/saved", function(data) {
         $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
         
   
-        if (data.note) {
-            $("#notes").append("<h2>Saved Note")
-            $("#notes").append("<h4>Title: " + data.note.title + "</h4>")
-            $("#notes").append("<p>Body: " + data.note.body + "</p>")
+        if (data.note.length >= 1) {
+            $("#notes").append("<h2>Saved Note</h2>")
+            for (let object of data.note) {
+              $("#notes").append(
+                  "<div>"
+                + "<h4>Title: " + object.title + "</h4>"
+                + "<p>Body: " + object.body + "</p>"
+                + "<button id=noteDelete noteId=" + object._id + ">delete</button>"
+                + "<p>--------------------</p>"
+                + "</div>"
+              )
+            }
+           
         }
       });
   });
@@ -49,7 +58,7 @@ $.getJSON("/saved", function(data) {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
     console.log(thisId)
-  
+    noteData = [ ]
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
       method: "POST",
@@ -59,7 +68,7 @@ $.getJSON("/saved", function(data) {
         title: $("#titleinput").val(),
         // Value taken from note textarea
         body: $("#bodyinput").val()
-      }
+      },
     })
       // With that done
       .then(function(data) {
@@ -73,3 +82,21 @@ $.getJSON("/saved", function(data) {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
+
+  $(document).on("click", "#noteDelete", function() {
+    thisId = $(this).attr("noteId")
+    console.log(thisId)
+    currentObject = $(this).parent()
+    $.ajax({
+      method: "GET",
+      url: "/delete/" + thisId,
+    })
+      // With that done
+      .then(function(data) {
+        // Log the response
+        console.log(data);
+        currentObject.remove()
+
+        // Empty the notes section
+      });
+    })
