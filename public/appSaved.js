@@ -39,6 +39,7 @@ $.getJSON("/saved", function(data) {
   
         if (data.note) {
             $("#notes").append("<h2>Saved Note</h2>")
+            console.log(data.note)
             for (let object of data.note) {
               $("#notes").append(
                   "<div>"
