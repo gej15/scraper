@@ -1,22 +1,8 @@
   
-$("#scrapeButton").on("click", async function() {
-    // return fetch('./scrape')
-    //   .then(location.reload())
-    // await (await fetch('./scrape')).json()
-    // loadScrapedArticles()
-
+$("#scrapeButton").on("click", function() {
   fetch("./scrape") 
   setTimeout( function() {loadScrapedArticles()}, 500)
   setTimeout( function() {console.log("this is a timeout")}, 250)
-    
-  
-  // try {
-  // let scrape = await fetch("./scrape")
-  // // let response = await scrape.json()
-  // let reload = await location.reload()
-  // } catch (e) {
-  //   console.log("this is our error" + e)
-  // }
 })
 
 
@@ -55,20 +41,9 @@ $(document).on("click", "#save", function() {
   let data = []
 
   var thisId = $(this).attr("data-id");
-  let thisTitle = $(this).attr("title")
-  let thisDes = $(this).attr("des");
+  let thisTitle = $(this).siblings('p').eq(0).text().slice(9)
+  let thisDes = $(this).siblings('p').eq(1).text().slice(14);
   let thisLink = $(this).attr("url");
-
-  
-
-  // data.push({
-  //   thisId: thisId,
-  //   thisTitle: thisTitle,
-  //   thisDes: thisDes,
-  //   thisLink: thisLink
-  // })
-
-  // console.log(data)
  
 
   // Now make an ajax call for the Article
