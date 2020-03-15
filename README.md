@@ -29,9 +29,8 @@ Your app should now be running on <http://localhost:3000>.
 ## What Was Used
 * Node.js
 * Express
-* React
-* MongoDB
-* Mongoose
+* MySQL
+* Sequlize
 * JavaScript
 * Html
 * Bootstrap
